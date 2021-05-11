@@ -1,0 +1,102 @@
+% Author:Dursun Oylum Seriner
+% Description: This program provide to calculate sin,cos,sin^2+cos^2 for 2x2 matrix's each elements% 
+% Input: 2x2 matrix elements
+% Output: answer1 gives that cos matrix, answer2 gives that sin matrix and
+% answer3 gives that cos^2+sin^2 matrix.
+% Usage : enter the four numbers for matrix coefficients and the program
+% gives answer1,answer1 and answer3
+clear all;
+clear;
+clc;
+
+k=0; % initial value of sum operation
+TOL=0.0000001;
+Cn1=0;
+Sn1=0;
+count=0;
+DIFFcos=1; %difference cos
+DIFFsin=1; %difference sin 
+A11=input('Input 2x2 matrix coefficients, a11=');
+A12=input('Input 2x2 matrix coefficients, a12=');
+A21=input('Input 2x2 matrix coefficients, a21=');
+A22=input('Input 2x2 matrix coefficients, a22=');
+
+A0=[A11 A12 A21 A22];
+A=max(A0);
+
+%COS
+while abs(DIFFcos) > TOL
+    Cn0=Cn1;
+    Cn1=(((-1)^k)*(A^(2*k)))/factorial(2*k);
+    k=k+1;
+    DIFFcos=Cn1-Cn0;
+    count=count+1;
+end
+
+k=0;
+Cn11=0;
+Cn12=0;
+Cn21=0;
+Cn22=0;
+for n=1:count
+    Cn11t=(((-1)^k)*(A11^(2*k)))/factorial(2*k);
+    Cn12t=(((-1)^k)*(A12^(2*k)))/factorial(2*k);
+    Cn21t=(((-1)^k)*(A21^(2*k)))/factorial(2*k);
+    Cn22t=(((-1)^k)*(A22^(2*k)))/factorial(2*k);
+    k=k+1;
+    Cn11=Cn11+Cn11t;
+    Cn12=Cn12+Cn12t;
+    Cn21=Cn21+Cn21t;
+    Cn22=Cn22+Cn22t;
+end
+
+k=0;
+count=0;
+
+%SIN
+while abs(DIFFsin) > TOL
+    Sn0=Sn1;
+    Sn1=(((-1)^k)*(A^(2*k+1)))/factorial(2*k+1);
+    k=k+1;
+    DIFFsin=Sn1-Sn0;
+    count=count+1;
+end
+
+k=0;
+Sn11=0;
+Sn12=0;
+Sn21=0;
+Sn22=0;
+for n=1:count
+    Sn11t=(((-1)^k)*(A11^(2*k+1)))/factorial(2*k+1);
+    Sn12t=(((-1)^k)*(A12^(2*k+1)))/factorial(2*k+1);
+    Sn21t=(((-1)^k)*(A21^(2*k+1)))/factorial(2*k+1);
+    Sn22t=(((-1)^k)*(A22^(2*k+1)))/factorial(2*k+1);
+    k=k+1;
+    Sn11=Sn11+Sn11t;
+    Sn12=Sn12+Sn12t;
+    Sn21=Sn21+Sn21t;
+    Sn22=Sn22+Sn22t;
+end
+
+Answer1=[Cn11 Cn12; Cn21 Cn22];
+Answer2=[Sn11 Sn12; Sn21 Sn22];
+Answer3=[(Cn11^2+Sn11^2) (Cn12^2+Sn12^2); (Cn21^2+Sn21^2) (Cn22^2+Sn22^2)]
+% Description: This program provide to draw lines are which is given
+% functions (F1,F2,F3)
+% Input: F1,F2,F3
+% Output: figure1
+% Usage : Run the program and you can see the figure 1 is belong to these 3
+% functions (F1,F2,F3)
+x = linspace(-1,1);
+F1= sin(2*x.*pi)./x.^2+1;
+F2=1./x.^2+1;
+F3=-1./x.^2+1;
+plot(x,F1,'-b'),hold on
+plot(x,F2,'--r'),hold on
+plot(x,F3,'--g'),hold off
+% grid on
+% show grid if you want
+title('2D-plots')
+xlabel('x−axis'),ylabel('y−axis')
+legend('F1','F2','F3')
