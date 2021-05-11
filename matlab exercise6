@@ -1,0 +1,84 @@
+% Author: Dursun Oylum Seriner
+% Description: This code proivide to find the difference between real
+% result and trapezoidal result
+% Input:
+%       a
+%       b
+%       N
+% Output:
+%       difference between real result and trapozidal result
+%       difference between real result and simpson result
+% Usage:
+%        "trapz", "quad"
+
+
+
+function difference=doseriner_2022697_ex10(a,b,N)
+    format long
+    a=0;
+    b=2.3;
+    %N=10;
+    %Understanding imopartence of N.
+    N=100;
+    X=linspace(a,b,N);
+    Y=X.*exp(-X/3);
+    fun=@(x)x.*exp(-x/3);
+   
+    trapz_result=trapz(X,Y);
+    % Alternatively
+    % "trapz(linspace(a,b,N),linspace(a,b,N).*exp(-linspace(a,b,N)/3))" can
+    % be written.
+   
+    simpson_result=quad(fun,a,b);
+
+    real_result=-3*exp(-b/3)*(b+3) ...
+        +3*exp(-a/3)*(a+3);
+   
+    diff_trapz=abs(trapz_result-real_result);
+    diff_simpson=abs(simpson_result-real_result);
+    difference=[diff_trapz diff_simpson];
+end
+% Description: This code proivide to find the difference between real
+% result and simpson result
+% Input:
+%       B=0.8
+%       a=0.6
+%       K=0.25 
+%       n=4
+%       tspan = [0 15]
+%       C_1=0.1
+%       C_2=0.2
+% Output:
+%        graph of C_1
+%        graph of C_2
+% Usage:
+%        "ode45"
+
+
+clear all
+close all
+clc
+ 
+B=0.8;
+a=0.6;
+K=0.25; 
+n=4;
+tspan = [0 15];
+
+C_1=0.1;
+func_1=@(t,y)(B*(y/K)^n)/(1+(y/K)^n)-(a*y);
+[t,y]=ode45(func_1,tspan,C_1);
+plot(t,y,'LineWidth',2)
+hold on
+
+C_2=0.2;
+func_2=@(s,r)(B*(r/K)^n)/(1+(r/K)^n)-(a*r);
+[s,r]=ode45(func_2,tspan,C_2);
+plot(s,r,'LineWidth',2)
+
+%Identity of graph
+xlabel('Time(t)','FontSize',14)
+ylabel('Concentration of the protein(C)','FontSize',14)
+title('Concentration of the protein (which varies with time)','FontSize',14)
+legend('C_1', 'C_2')
+
