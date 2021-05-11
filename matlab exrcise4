@@ -1,0 +1,55 @@
+% Description: Solving linear system, compare two different itterative solvers
+% Input: 'matrix_medium.mat'
+% Output: Figure1,Figure2,table about CPU of solvers and iterations.
+% Usage : sparse,nnz,amd,spy(A),chol,ichol,mldivide,Conjugate
+% Gradient,MINRES
+
+clear all 
+clc
+load('matrix_medium.mat');% for loading given matrix
+
+A=sparse(linsys.row, linsys.col, linsys.val);%Convert sparse triplet (row,col,val) into a matrix A
+
+b=linsys.b;
+
+no_nonzeros=nnz(A);%Determine number of nonzeros in A
+
+p=amd(A);%Compute approximate minimum degree permutation of A: p = amd(A)
+
+figure(1)
+spy(A);%Plot sparsity structure of matrix A
+
+R = chol(A); %Determine whether matrix is symmetric positive definite
+
+A(p,p)= R'*R; %cholesky
+
+L = ichol(A); %A → Rinc
+
+figure(2)
+spy(L); %plot Rinc
+
+M = L'*L;%define M = Rinc'*Rinc
+x = mldivide(A,b); %blackslah
+
+t0=cputime;
+[x_pcg,~,~,iter_pcg,resvec_pcg]=pcg(A,b,[],1000);%Conjugate Gradient without preconditioning
+CPU_pcg=cputime-t0;  
+error_pcg=norm(x-x_pcg)/norm(x)
+
+t0=cputime;
+[x_pcg_withpreconditioning,~,~,iter_pcg_withpreconditioning,resvec_pcg_withpreconditioning] = pcg(A,b,[],100,M);%Preconditioned Conjugate Gradient, preconditioned with M
+CPU_pcg_withpreconditioning=cputime-t0;
+error_pcg_withpreconditionin=norm(x-x_pcg_withpreconditioning)/norm(x)
+
+t0=cputime;
+[x_minres,~,~,iter_minres,resvec_minres] = minres(A,b,[],1000);%MINRES without preconditioning
+CPU_minres=cputime-t0;
+error_minres=norm(x-x_minres)/norm(x)
+
+t0=cputime;
+[x_minres_withpreconditioning,~,~,iter_minres_withpreconditioning,resvec_minres_withpreconditioning] = minres(A,b,[],100,M);%MINRES, preconditioned with M
+CPU_minres_withpreconditioning=cputime-t0;
+error_minres_withpreconditioning=norm(x-x_minres_withpreconditioning)/norm(x)
+
+T1=table(CPU_pcg,CPU_pcg_withpreconditioning,CPU_minres,CPU_minres_withpreconditioning)%Create a table containing the CPU
+T2=table(iter_pcg,iter_pcg_withpreconditioning,iter_minres,iter_minres_withpreconditioning)%Create a table containing the number of iterations
