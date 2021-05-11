@@ -1,0 +1,41 @@
+  % Author:Dursun Oylum Seriner
+  % Description: This program provide to see the transformation matrix to color of image.  
+  % Input: durer.mat (saved image files)
+  % Output: Figure about picture
+  % Usage : Run the program and you can see the figure 1.
+clear all;
+clear;
+clc;
+filename = 'durer.mat';%
+  % which durer.mat 
+  % You can see the location of this file with the 'which' command.
+variables = {'X','caption'};
+S = load(filename,variables{:});
+load durer.mat;
+image(X)
+colormap(map)
+  % whos
+  % Thanks to this command, you can see the detail about image.
+  % Description: This program provide the calculation of factorial. Of ocurse, except the negative numbers and noninteger numbers. 
+% Input: numbers
+% Output: factorial of numbers
+% Usage : Run the program and enter the number.
+
+clear all;
+clear;
+clc;
+
+    A=input('Enter number=');
+if (A < 0)
+    disp('You entered a negative number!')
+elseif (A~=round(A))
+    disp('You entered a non-integer number!')
+elseif (A==0) %I want to indicate '0' especially.
+    disp('factorial= 1')
+else  
+    factorial=1;
+        for i=1:A
+            factorial=factorial*i;
+        end
+        factorial
+end
