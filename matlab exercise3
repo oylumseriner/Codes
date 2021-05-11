@@ -1,0 +1,66 @@
+% Author:Dursun Oylum Seriner
+% Description: Draw a script to plot the functions four command (shading
+% faceted, shading interp, contour in 2D, contour in 3D)
+% Input: Requires no inputs
+% Output: Four different types same plot funciton.
+% Usage : mehgrid,shading faceted,shading interp,countor in 2D and 3D
+x = linspace(-3,3); % define the x value with linspace command
+y = linspace(-3,3); % define the y value with linspace command
+[X,Y]=meshgrid(x,y);
+z=X.^2+Y.^2; 
+subplot(2,2,1), mesh(x,y,z) % location of graph is left-top by using subplot command
+xlabel('x'),ylabel('y')
+zlabel('z'),hold on
+surf(x,y,z), title('shading faceted')
+shading faceted
+subplot(2,2,2), surf(x,y,z) % location of graph is right-top by using subplot command
+xlabel('x'),ylabel('y')
+zlabel('z'),title('shading interp')
+shading interp
+subplot(2,2,3), contour3(x,y,z) % location of graph is left-bottom by using subplot command
+xlabel('x'),ylabel('y')
+zlabel('z'),title('3D contour')
+subplot(2,2,4) % location of graph is right-bottom by using subplot command
+xlabel('x'),ylabel('y')
+zlabel('z')
+contour(x,y,z),title('2D contour')
+
+% Description: This program provide the show that time foor loop and vectorization in the same equation.. except the negative numbers and noninteger numbers. 
+% Input: numbers
+% Output: Result this equation and time belongs to each method.
+% Usage : Run the program and enter the number. Then, you can see result
+% and time for each method.(tic/toc,vectorization)
+
+x=input('choose 1 (for loop) or 2(vectorizetion)=');%user can choose the loop or vectorization.
+B=0;
+% Loops
+if x==1
+n=input('Enter the number=');
+tic;
+for a=0:n
+   A=sum((1:a).^3);
+   B=B+A;
+   B;
+end
+B
+end
+toc();
+t=tic();
+toc(t);
+t=tic();
+elapsed_s=toc(t)
+% Vectorized:
+if x==2 
+k=input('Enter thne number=');
+tic  
+a=k:-1:1;
+b=1:k;
+c=b.^3;
+d=a.*c;
+sum(d)
+toc();
+t=tic();
+toc(t);
+t=tic();
+elapsed_s=toc(t)
+end
