@@ -1,0 +1,75 @@
+% Author: Dursun Oylum Seriner
+% Description: This code proivide to discuss three model about given data
+% Input:
+%        h   : given value (Height)
+%        f   : given value (Flow)
+%
+% Output:
+%        Linear model
+%        Quadratic model
+%        Cubic model
+% Usage:
+%        "polyfit"
+
+
+h=[0 1.7 1.95 2.60 2.92 4.04 5.24];
+f=[0 2.6 3.6 4.03 6.45 11.22 30.61];
+
+mod_1=polyfit(h,f,1);
+mod_2=polyfit(h,f,2);
+mod_3=polyfit(h,f,3);
+
+figure %Provide see the original point
+hold on
+scatter(h,f)
+
+%Linear
+estimate_1=mod_1(1)*h+mod_1(2);
+plot(h, estimate_1,'LineWidth',2)
+
+%Quadratic
+estimate_2=mod_2(1)*h.^2+mod_2(2)*h+mod_2(3);
+plot(h, estimate_2,'LineWidth',2)
+
+%Cubic
+estimate_3=mod_3(1)*h.^3+mod_3(2)*h.^2+mod_3(3)*h+mod_3(4);
+plot(h, estimate_3,'LineWidth',2)
+
+xlabel('Height, T[C]','FontSize',14)
+ylabel('Flow, u[KJ/kg]','FontSize',14)
+title('Flow vs Height Graph','FontSize',14)
+legend('Original Data', 'Linear Model', 'Quadratic Model', ...
+    '3rd Order Model')
+
+
+% Description: This code proivide to find the min point for given function
+% Input:
+%        fun1=@(x)(0.5*x^2-sin(x))
+%        fun2=@(x)(gamma(x))
+%
+% Output:
+%        min1
+%        min2
+% Usage:
+%        "fminbnd"
+clear all
+close all
+clc
+
+fun1=@(x)(0.5*x^2-sin(x));
+min1=fminbnd(fun1,0,3);
+min1
+fun1(min1)
+
+fun2=@(x)(gamma(x));
+min2=fminbnd(fun2,0,3);
+min2
+fun2(min2)
+
+%Optional part
+t=0:0.01:3;
+figure
+hold on
+plot(t,0.5*t.^2-sin(t),'LineWidth',2)
+figure
+plot(t,gamma(t),'LineWidth',2)
